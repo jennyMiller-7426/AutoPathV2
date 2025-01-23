@@ -11,6 +11,9 @@ backgroundImage.onload = () => {
     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 };
 
+const formEntryID = "entry.KHxj8b.tL9Q4c"; // Replace with your question's entry ID
+const formAction = "https://docs.google.com/spreadsheets/d/1_tLh09np3BbyckaD8c3ebU3gXZYnMy40shEOTW2BsYo/edit?usp=sharing"; // Replace with your Form's ID
+
 // Variables for drawing
 let isDrawing = false;
 let lastX = 0;
