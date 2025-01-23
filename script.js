@@ -57,7 +57,8 @@ document.getElementById("clearCanvas").addEventListener("click", () => {
 
 // Submit drawing
 document.getElementById("submitDrawing").addEventListener("click", () => {
-    const imageData = canvas.toDataURL("image/png"); // Generate Base64 image data
+    const imageData = canvas.toDataURL("image/png", 0.5); // Reduce quality to 50%
+ // Generate Base64 image data
     console.log("Base64 image data:", imageData); // Log the Base64 data
 
     const formData = new FormData();
