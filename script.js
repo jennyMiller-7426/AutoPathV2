@@ -55,14 +55,25 @@ document.getElementById("clearCanvas").addEventListener("click", () => {
     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height); // Redraw the background
 });
 
+const resizedCanvas = document.createElement("canvas");
+const resizedCtx = resizedCanvas.getContext("2d");
+
+resizedCanvas.width = canvas.width / 2; // Reduce width by half
+resizedCanvas.height = canvas.height / 2; // Reduce height by half
+
+resizedCtx.drawImage(canvas, 0, 0, resizedCanvas.width, resizedCanvas.height);
+
+const resizedImageData = resizedCanvas.toDataURL("image/png", 0.5); // Smaller, compressed image
+
+
 // Submit drawing
 document.getElementById("submitDrawing").addEventListener("click", () => {
     const imageData = canvas.toDataURL("image/png", 0.5); // Reduce quality to 50%
  // Generate Base64 image data
-    console.log("Base64 image data:", imageData); // Log the Base64 data
+    console.log("Base64 image data:", resizedImageData); // Log the Base64 data
 
     const formData = new FormData();
-    formData.append(formEntryID, imageData); // Attach the drawing data
+    formData.append(formEntryID, resizedImageData); // Attach the drawing data
     console.log("FormData content:", formData.get(formEntryID)); // Log the appended data
     console.log("This shit happened");
 
