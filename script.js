@@ -53,11 +53,12 @@ document.getElementById("clearCanvas").addEventListener("click", () => {
 
 // Submit drawing
 document.getElementById("submitDrawing").addEventListener("click", () => {
-    const imageData = canvas.toDataURL("image/png"); // Convert drawing to Base64 image
+    const imageData = canvas.toDataURL("image/png"); // Generate Base64 image data
+    console.log("Base64 image data:", imageData); // Log the Base64 data to verify it's generated
 
-    // Create form data
     const formData = new FormData();
-    formData.append(formEntryID, imageData);
+    formData.append(formEntryID, imageData); // Attach the drawing data
+    console.log("Form data:", formData);
 
     // Submit to Google Form
     fetch(formAction, {
@@ -66,11 +67,13 @@ document.getElementById("submitDrawing").addEventListener("click", () => {
         mode: "no-cors" // Required for Google Forms
     })
     .then(() => {
+        console.log("Submission successful!");
         alert("Drawing submitted successfully!");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height); // Reset canvas
     })
     .catch((err) => {
+        console.error("Submission failed:", err.message);
         alert("Submission failed: " + err.message);
     });
 });
