@@ -11,6 +11,7 @@ backgroundImage.onload = () => {
     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 };
 
+// Form details
 const formEntryID = "entry.28848329"; // Replace with your question's entry ID
 const formAction = "https://docs.google.com/forms/d/e/1FAIpQLScyZBBnuLBsynXzh-MH5aqHvMKN9PiJF334ruH6wgDipnqD6w/formResponse"; // Replace with your Form's ID
 
@@ -54,13 +55,13 @@ document.getElementById("clearCanvas").addEventListener("click", () => {
 // Submit drawing
 document.getElementById("submitDrawing").addEventListener("click", () => {
     const imageData = canvas.toDataURL("image/png"); // Generate Base64 image data
-    console.log("Base64 image data:", imageData); // Log the Base64 data to verify it's generated
+    console.log("Base64 image data:", imageData); // Log the Base64 data
 
     const formData = new FormData();
     formData.append(formEntryID, imageData); // Attach the drawing data
-    console.log("Form data:", formData);
+    console.log("FormData content:", formData.get(formEntryID)); // Log the appended data
 
-    // Submit to Google Form
+    // Submit the form
     fetch(formAction, {
         method: "POST",
         body: formData,
