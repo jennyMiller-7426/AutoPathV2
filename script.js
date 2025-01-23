@@ -1,3 +1,6 @@
+console.log("Script loaded successfully!");
+
+
 // Canvas setup
 const canvas = document.getElementById("drawingCanvas");
 const ctx = canvas.getContext("2d");
