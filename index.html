@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot Path Drawing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        canvas {
+            border: 1px solid #000;
+            display: block;
+            margin: 0 auto;
+        }
+        .controls {
+            margin: 20px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Draw Robot Path</h1>
+    <p>The image below shows the field layout. Draw your robot's path on top of it.</p>
+    <canvas id="drawingCanvas" width="800" height="600"></canvas>
+    <div class="controls">
+        <button id="clearCanvas">Clear</button>
+        <button id="submitDrawing">Submit</button>
+    </div>
+    <script src="script.js"></script> <!-- Link to your JavaScript file -->
+</body>
+</html>
