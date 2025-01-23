@@ -11,7 +11,7 @@ backgroundImage.onload = () => {
     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 };
 
-const formEntryID = "entry.YPqjbf"; // Replace with your question's entry ID
+const formEntryID = "entry.28848329"; // Replace with your question's entry ID
 const formAction = "https://docs.google.com/forms/d/e/1FAIpQLScyZBBnuLBsynXzh-MH5aqHvMKN9PiJF334ruH6wgDipnqD6w/formResponse"; // Replace with your Form's ID
 
 // Variables for drawing
