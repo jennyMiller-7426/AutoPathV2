@@ -12,7 +12,7 @@ backgroundImage.onload = () => {
 };
 
 const formEntryID = "entry.YPqjbf"; // Replace with your question's entry ID
-const formAction = "https://docs.google.com/spreadsheets/d/1_tLh09np3BbyckaD8c3ebU3gXZYnMy40shEOTW2BsYo/edit?usp=sharing"; // Replace with your Form's ID
+const formAction = "https://docs.google.com/forms/d/e/1FAIpQLScyZBBnuLBsynXzh-MH5aqHvMKN9PiJF334ruH6wgDipnqD6w/formResponse"; // Replace with your Form's ID
 
 // Variables for drawing
 let isDrawing = false;
