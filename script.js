@@ -62,7 +62,7 @@ document.getElementById("submitDrawing").addEventListener("click", () => {
     console.log("Base64 image data:", "test this out"); // Log the Base64 data
 
     const formData = new FormData();
-    formData.append(formEntryID, imageData); // Attach the drawing data
+    formData.append(formEntryID, "test this out"); // Attach the drawing data
     console.log("FormData content:", formData.get(formEntryID)); // Log the appended data
     console.log("This shit happened");
 
