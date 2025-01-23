@@ -53,24 +53,24 @@ document.getElementById("clearCanvas").addEventListener("click", () => {
 
 // Submit drawing
 document.getElementById("submitDrawing").addEventListener("click", () => {
-    const imageData = canvas.toDataURL("image/png");
-    const formEntryID = "entry.123456789"; // Replace with your Google Form entry ID
-    const formAction = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse"; // Replace with your Form ID
+    const imageData = canvas.toDataURL("image/png"); // Convert drawing to Base64 image
 
     // Create form data
     const formData = new FormData();
     formData.append(formEntryID, imageData);
 
-    // Submit the form
+    // Submit to Google Form
     fetch(formAction, {
         method: "POST",
         body: formData,
-        mode: "no-cors" // Google Forms requires no-cors mode
-    }).then(() => {
+        mode: "no-cors" // Required for Google Forms
+    })
+    .then(() => {
         alert("Drawing submitted successfully!");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height); // Reset canvas
-    }).catch(err => {
+    })
+    .catch((err) => {
         alert("Submission failed: " + err.message);
     });
 });
