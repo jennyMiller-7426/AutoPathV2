@@ -1,13 +1,3 @@
-/**************************************
- *  ADD THESE INPUT FIELDS IN YOUR HTML:
- *  -------------------------------------
- *  <label for="teamNumber">Team Number:</label>
- *  <input type="text" id="teamNumber" />
- *
- *  <label for="matchNumber">Match Number:</label>
- *  <input type="text" id="matchNumber" />
- **************************************/
-
 console.log("Script loaded successfully!");
 
 // Canvas setup
@@ -16,19 +6,15 @@ const ctx = canvas.getContext("2d");
 
 // Use FIELD_MAP2.svg as a raster background (for user preview only)
 const backgroundImage = new Image();
-backgroundImage.src = "FIELD_MAP2.svg"; // Example vector file, displayed as raster
+backgroundImage.src = "FIELD_MAP2.svg"; // Background image vector
 
-// Use addEventListener instead of onload for CSP compliance
+// Use addEventListener instead of onload for CSP complianc
 backgroundImage.addEventListener("load", () => {
   ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 });
 
-// =========== UPDATE THIS ENDPOINT ===========
-// Replace this with your actual server or service 
-// that appends rows to a CSV file. For example, a Node.js 
-// endpoint that writes lines like:
-// "TeamNumber,MatchNumber,SVG\n"
-const CSV_ENDPOINT = "YOUR_CSV_ENDPOINT_HERE";  // <--- Update me!
+//Destination CSV
+const CSV_ENDPOINT = "https://github.com/jennyMiller-7426/AutoPathV2/blob/4536015fbd0a26fa174ec43222b176de8d97e68e/Auto%20Path%20Test%20%20-%20Sheet1.csv";  // <--- Update me!
 
 // Variables for drawing on the canvas
 let isDrawing = false;
