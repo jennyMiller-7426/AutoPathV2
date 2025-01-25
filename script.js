@@ -152,19 +152,28 @@ document.getElementById("submitDrawing").addEventListener("click", () => {
   // 2. Optionally log it
   console.log("Final SVG:", finalSVG);
 
-  // 3. Base64-encode the SVG
-  //    "data:image/svg+xml;base64,..." so it can be appended to FormData
+  // 3. Base64-encode the SVG ("data:image/svg+xml;base64,...") for FormData
   const svgBlob = new Blob([finalSVG], { type: "image/svg+xml" });
   const reader = new FileReader();
+
   reader.onload = function () {
     const base64SVG = reader.result; // e.g. "data:image/svg+xml;base64,PHN2ZyB..."
     console.log("Base64-encoded SVG:", base64SVG);
 
-    // 4. Submit this Base64 to Google Forms
+    // 4. Build the FormData
     const formData = new FormData();
+    // Basic question answer
     formData.append(formEntryID, base64SVG);
-    console.log("FormData content:", formData.get(formEntryID));
+    
+    // ADDITIONAL FIELDS (fill in actual values from your form's network tab)
+    formData.append("draftResponse", "YOUR_VALUE_FROM_NETWORK_TAB");
+    formData.append("fbzx", "YOUR_VALUE_FROM_NETWORK_TAB");
+    formData.append("pageHistory", "0");
+    // formData.append("partialResponse", ... ); // or any other keys you see
 
+    console.log("FormData content for entry:", formData.get(formEntryID));
+    
+    // 5. POST to Google Form
     fetch(formAction, {
       method: "POST",
       body: formData,
@@ -183,6 +192,7 @@ document.getElementById("submitDrawing").addEventListener("click", () => {
         alert("Submission failed: " + err.message);
       });
   };
+
   reader.readAsDataURL(svgBlob);
 });
 
