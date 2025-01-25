@@ -165,7 +165,7 @@ document.getElementById("submitDrawing").addEventListener("click", () => {
         formData.append(formEntryID, base64SVG);
         console.log("FormData content:", formData.get(formEntryID));
 
-        */
+      
         fetch(formAction, {
             method: "POST",
             body: formData,
