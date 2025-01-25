@@ -22,7 +22,9 @@ let lastY = 0;
 let strokes = [];
 let currentStroke = [];
 
-// Get pointer position
+/**
+ * Get pointer position
+ */
 function getPointerPos(e) {
   const rect = canvas.getBoundingClientRect();
   return {
@@ -76,7 +78,9 @@ document.getElementById("clearCanvas").addEventListener("click", () => {
   strokes = [];
 });
 
-// Convert strokes to <path>
+/**
+ * Convert strokes into <path> elements
+ */
 function buildSVGPaths() {
   let pathElements = "";
   for (const stroke of strokes) {
@@ -90,18 +94,24 @@ function buildSVGPaths() {
   return pathElements;
 }
 
-// Build final SVG
+/**
+ * Build final SVG as a single string (no multiline backticks)
+ */
 function buildFinalSVG() {
   const width = canvas.width;
   const height = canvas.height;
-  return `
-<svg width="${width}" height="${height}"
-     viewBox="0 0 ${width} ${height}"
-     xmlns="http://www.w3.org/2000/svg">
-  <image href="FIELD_MAP2.svg" x="0" y="0" width="${width}" height="${height}" />
-  ${buildSVGPaths()}
-</svg>
-  `.trim();
+  
+  // Construct the SVG in one line or by concatenating strings
+  const svgStart = '<svg width="' + width + '" height="' + height + '" ' +
+                   'viewBox="0 0 ' + width + ' ' + height + '" ' +
+                   'xmlns="http://www.w3.org/2000/svg">';
+  const svgImage = '<image href="FIELD_MAP2.svg" x="0" y="0" width="' +
+                   width + '" height="' + height + '" />';
+  const svgPaths = buildSVGPaths();
+  const svgEnd = '</svg>';
+
+  // Combine everything
+  return svgStart + svgImage + svgPaths + svgEnd;
 }
 
 // Submit data to Google Sheet
@@ -109,24 +119,24 @@ document.getElementById("submitDrawing").addEventListener("click", () => {
   const teamNumber = document.getElementById("teamNumber").value.trim();
   const matchNumber = document.getElementById("matchNumber").value.trim();
 
-  // Build SVG
+  // 1) Build the final SVG string
   const finalSVG = buildFinalSVG();
 
-  // Convert SVG to Base64
+  // 2) Convert SVG to Base64
   const svgBlob = new Blob([finalSVG], { type: "image/svg+xml" });
   const reader = new FileReader();
 
   reader.onload = function () {
-    const base64SVG = reader.result; // e.g. data:image/svg+xml;base64,...
+    const base64SVG = reader.result; // e.g. "data:image/svg+xml;base64,..."
 
-    // Construct the data to send
+    // 3) Construct the data to send
     const payload = {
       teamNumber: teamNumber,
       matchNumber: matchNumber,
       svgData: base64SVG,
     };
 
-    // POST to the Apps Script Web App
+    // 4) POST to the Apps Script Web App
     fetch(GOOGLE_SCRIPT_URL, {
       method: "POST",
       body: JSON.stringify(payload),
@@ -142,7 +152,7 @@ document.getElementById("submitDrawing").addEventListener("click", () => {
         }
       })
       .catch((err) => alert("Submission failed: " + err));
-  }; // <-- FIXED BRACES HERE
+  };
 
   reader.readAsDataURL(svgBlob);
 });
