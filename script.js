@@ -8,10 +8,10 @@ const ctx = canvas.getContext("2d");
 const backgroundImage = new Image();
 backgroundImage.src = "FIELD_MAP2.svg"; // Actual vector file, but drawn here as raster for preview
 
-backgroundImage.onload = () => {
-    // Draw background onto the canvas so the user sees it
-    ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-};
+backgroundImage.addEventListener("load", () => {
+  ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+});
+
 
 // Google Form details
 const formEntryID = "entry.1067464794";  // Replace with your question's entry ID
