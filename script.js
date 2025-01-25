@@ -125,31 +125,25 @@ document.getElementById("submitDrawing").addEventListener("click", () => {
 
     // POST to the Apps Script Web App
     fetch(GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify(payload), 
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log("Response from Apps Script:", data);
-        if (data.status === "success") {
-          alert("Drawing submitted successfully!");
-          // Reset canvas
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-          strokes = [];
-          // Clear input fields
-          document.getElementById("teamNumber").value = "";
-          document.getElementById("matchNumber").value = "";
-        } else {
-          alert("Submission failed: " + JSON.stringify(data));
-        }
-      })
-      .catch(err => {
-        console.error("Submission failed:", err);
-        alert("Submission failed: " + err.message);
-      });
-  };
+  method: "POST",
+  body: JSON.stringify({
+    teamNumber,
+    matchNumber,
+    svgData: base64SVG
+  }),
+  headers: { "Content-Type": "application/json" }
+})
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === "success") {
+      alert("Submission successful!");
+      // ...
+    } else {
+      alert("Submission failed: " + data.message);
+    }
+  })
+  .catch(err => alert("Submission failed: " + err));
+  
   reader.readAsDataURL(svgBlob);
 });
 
