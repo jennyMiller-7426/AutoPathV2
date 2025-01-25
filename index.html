@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   
-    <title>Robot Path Drawing</title>
-    <style>
-    /* Make sure the canvas doesn't interpret touch as scroll */
+  <meta charset="UTF-8" />
+  <title>Robot Path to Google Sheets</title>
+  <style>
     #drawingCanvas {
       border: 1px solid #000;
       touch-action: none;
     }
-
-      body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
-        }
-        canvas {
-            border: 1px solid #000;
-            display: block;
-            margin: 0 auto;
-        }
-        .controls {
-            margin: 20px;
-        }
-        button {
-            margin: 5px;
-            padding: 10px 15px;
-            font-size: 16px;
-        }
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    .controls {
+      margin: 20px;
+    }
+    button {
+      margin: 5px;
+      padding: 10px 15px;
+      font-size: 16px;
+    }
+    input {
+      margin: 5px;
+      padding: 5px;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
-    <h1>Draw Robot Path</h1>
-    <p>The image below shows the field layout. Draw your robot's path on top of it.</p>
-    <canvas id="drawingCanvas" width="800" height="400"></canvas>
-    <div class="controls">
-        <label for="teamNumber">Team Number:</label>
-        <input type="text" id="teamNumber" />
 
-        <label for="matchNumber">Match Number:</label>
-        <input type="text" id="matchNumber" />
-        
-        <button id="clearCanvas">Clear</button>
-        <button id="submitDrawing">Submit</button>
-        
+  <h1>Draw Robot Path</h1>
+  <p>Fill in your team number and match number, then draw your path!</p>
 
-    </div>
-    <script src="script.js"></script> <!-- Link to your JavaScript file -->
+  <div>
+    <label for="teamNumber">Team Number:</label>
+    <input type="text" id="teamNumber" />
+    
+    <label for="matchNumber">Match Number:</label>
+    <input type="text" id="matchNumber" />
+  </div>
+
+  <canvas id="drawingCanvas" width="800" height="400"></canvas>
+  <div class="controls">
+    <button id="clearCanvas">Clear</button>
+    <button id="submitDrawing">Submit</button>
+  </div>
+
+  <script src="script.js"></script>
+
 </body>
 </html>
