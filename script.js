@@ -145,7 +145,7 @@ document.getElementById("submitDrawing").addEventListener("click", () => {
   }; // <-- FIXED BRACES HERE
 
   reader.readAsDataURL(svgBlob);
-});
+};
 
 // Pointer events
 canvas.addEventListener("pointerdown", startDrawing);
