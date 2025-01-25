@@ -1,3 +1,13 @@
+/**************************************
+ *  ADD THESE INPUT FIELDS IN YOUR HTML:
+ *  -------------------------------------
+ *  <label for="teamNumber">Team Number:</label>
+ *  <input type="text" id="teamNumber" />
+ *
+ *  <label for="matchNumber">Match Number:</label>
+ *  <input type="text" id="matchNumber" />
+ **************************************/
+
 console.log("Script loaded successfully!");
 
 // Canvas setup
@@ -6,17 +16,19 @@ const ctx = canvas.getContext("2d");
 
 // Use FIELD_MAP2.svg as a raster background (for user preview only)
 const backgroundImage = new Image();
-backgroundImage.src = "FIELD_MAP2.svg"; // Actual vector file, but drawn here as raster for preview
+backgroundImage.src = "FIELD_MAP2.svg"; // Example vector file, displayed as raster
 
 // Use addEventListener instead of onload for CSP compliance
 backgroundImage.addEventListener("load", () => {
   ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 });
 
-// Google Form details
-const formEntryID = "entry.1067464794"; // Replace with your question's entry ID
-const formAction =
-  "https://docs.google.com/forms/d/e/1FAIpQLScyZBBnuLBsynXzh-MH5aqHvMKN9PiJF334ruH6wgDipnqD6w/formResponse"; // Replace with your Form's ID
+// =========== UPDATE THIS ENDPOINT ===========
+// Replace this with your actual server or service 
+// that appends rows to a CSV file. For example, a Node.js 
+// endpoint that writes lines like:
+// "TeamNumber,MatchNumber,SVG\n"
+const CSV_ENDPOINT = "YOUR_CSV_ENDPOINT_HERE";  // <--- Update me!
 
 // Variables for drawing on the canvas
 let isDrawing = false;
@@ -73,6 +85,7 @@ function draw(e) {
 
   // Update last position
   [lastX, lastY] = [x, y];
+
   // Record the point in the current stroke
   currentStroke.push({ x, y });
 }
@@ -124,12 +137,9 @@ function buildSVGPaths() {
  * plus all user-drawn paths.
  */
 function buildFinalSVG() {
-  // The overall SVG size should match the canvas size
   const width = canvas.width;
   const height = canvas.height;
 
-  // We embed FIELD_MAP2.svg as a sub <image> for the background
-  // Then we append <path> elements for user strokes
   const svgContent = `
 <svg width="${width}" height="${height}"
      viewBox="0 0 ${width} ${height}"
@@ -143,49 +153,50 @@ function buildFinalSVG() {
 }
 
 /**
- * Submit the drawing as an SVG
+ * Submit the drawing as CSV: 
+ * The CSV columns: Team Number, Match Number, SVG
  */
 document.getElementById("submitDrawing").addEventListener("click", () => {
-  // 1. Build the final SVG string
-  const finalSVG = buildFinalSVG();
+  // 1. Retrieve user inputs for Team and Match
+  const teamNumber = document.getElementById("teamNumber").value.trim();  // <--- Update your HTML
+  const matchNumber = document.getElementById("matchNumber").value.trim(); // <--- Update your HTML
 
-  // 2. Optionally log it
+  // 2. Build the final SVG string
+  const finalSVG = buildFinalSVG();
   console.log("Final SVG:", finalSVG);
 
-  // 3. Base64-encode the SVG ("data:image/svg+xml;base64,...") for FormData
+  // 3. Base64-encode the SVG
   const svgBlob = new Blob([finalSVG], { type: "image/svg+xml" });
   const reader = new FileReader();
 
   reader.onload = function () {
     const base64SVG = reader.result; // e.g. "data:image/svg+xml;base64,PHN2ZyB..."
-    console.log("Base64-encoded SVG:", base64SVG);
 
-    // 4. Build the FormData
-    const formData = new FormData();
-    // Basic question answer
-    formData.append(formEntryID, base64SVG);
-    
-    // ADDITIONAL FIELDS (fill in actual values from your form's network tab)
-    formData.append("draftResponse", "YOUR_VALUE_FROM_NETWORK_TAB");
-    formData.append("fbzx", "YOUR_VALUE_FROM_NETWORK_TAB");
-    formData.append("pageHistory", "0");
-    // formData.append("partialResponse", ... ); // or any other keys you see
+    // 4. Construct the CSV line: "Team Number,Match Number,SVG"
+    // We'll URL-encode the CSV line to send it safely in a request
+    const csvLine = `${teamNumber},${matchNumber},${base64SVG}\n`;
+    console.log("CSV line:", csvLine);
 
-    console.log("FormData content for entry:", formData.get(formEntryID));
-    
-    // 5. POST to Google Form
-    fetch(formAction, {
+    // 5. SEND CSV LINE TO YOUR SERVER
+    // =========== YOU MUST UPDATE CSV_ENDPOINT WITH YOUR SERVER LOGIC ===========
+    // Example: A POST request that your backend handles to append lines to a CSV file.
+    fetch(CSV_ENDPOINT, {
       method: "POST",
-      body: formData,
-      mode: "no-cors",
+      headers: { "Content-Type": "text/plain" }, // or application/json, depending on your backend
+      body: csvLine,
     })
       .then(() => {
         console.log("Submission successful!");
         alert("Drawing submitted successfully!");
-        // Reset the canvas after submission
+
+        // Reset the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
         strokes = [];
+
+        // Clear input fields
+        document.getElementById("teamNumber").value = "";
+        document.getElementById("matchNumber").value = "";
       })
       .catch((err) => {
         console.error("Submission failed:", err.message);
