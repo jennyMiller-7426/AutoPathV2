@@ -22,15 +22,35 @@ let isDrawing = false;
 let lastX = 0;
 let lastY = 0;
 
+/**
+ * Utility: Get pointer position relative to the canvas
+ * Works for mouse, touch, and stylus.
+ */
+function getPointerPos(e) {
+    const rect = e.target.getBoundingClientRect();
+    return {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+    };
+}
+
 // Start drawing
 function startDrawing(e) {
+    e.preventDefault(); // Prevent scrolling on touch devices
     isDrawing = true;
-    [lastX, lastY] = [e.offsetX, e.offsetY];
+    
+    // Get initial pointer position
+    const { x, y } = getPointerPos(e);
+    [lastX, lastY] = [x, y];
 }
 
 // Draw on the canvas
 function draw(e) {
+    e.preventDefault();
     if (!isDrawing) return;
+
+    const { x, y } = getPointerPos(e);
+
     ctx.strokeStyle = "#ff0000";
     ctx.lineWidth = 2;
     ctx.lineJoin = "round";
@@ -38,13 +58,14 @@ function draw(e) {
 
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
-    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.lineTo(x, y);
     ctx.stroke();
-    [lastX, lastY] = [e.offsetX, e.offsetY];
+    [lastX, lastY] = [x, y];
 }
 
 // Stop drawing
-function stopDrawing() {
+function stopDrawing(e) {
+    e.preventDefault();
     isDrawing = false;
 }
 
@@ -88,8 +109,11 @@ document.getElementById("submitDrawing").addEventListener("click", () => {
     });
 });
 
-// Event listeners for drawing
-canvas.addEventListener("mousedown", startDrawing);
-canvas.addEventListener("mousemove", draw);
-canvas.addEventListener("mouseup", stopDrawing);
-canvas.addEventListener("mouseout", stopDrawing);
+/**
+ * Replace old mouse events with pointer events
+ * to unify mouse, touch, and stylus drawing.
+ */
+canvas.addEventListener("pointerdown", startDrawing);
+canvas.addEventListener("pointermove", draw);
+canvas.addEventListener("pointerup", stopDrawing);
+canvas.addEventListener("pointercancel", stopDrawing);
