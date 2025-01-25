@@ -142,10 +142,10 @@ document.getElementById("submitDrawing").addEventListener("click", () => {
         }
       })
       .catch((err) => alert("Submission failed: " + err));
-  }); // <-- FIXED BRACES HERE
+  }; // <-- FIXED BRACES HERE
 
   reader.readAsDataURL(svgBlob);
-//};
+});
 
 // Pointer events
 canvas.addEventListener("pointerdown", startDrawing);
