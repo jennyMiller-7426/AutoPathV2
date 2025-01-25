@@ -1,15 +1,16 @@
 console.log("Script loaded successfully!");
 
-//Google Apps Script URL (web app) 
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbygn0yAeLBm-qGvijx_lcGz54X5W9yzqCMYAmjy0uxTEB1xHmI5Rl8CsjnDmppvNRyD/exec";
+// Google Apps Script URL (web app)
+const GOOGLE_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbygn0yAeLBm-qGvijx_lcGz54X5W9yzqCMYAmjy0uxTEB1xHmI5Rl8CsjnDmppvNRyD/exec";
 
 // Canvas setup
 const canvas = document.getElementById("drawingCanvas");
 const ctx = canvas.getContext("2d");
 
-// Load the background image 
+// Load the background image
 const backgroundImage = new Image();
-backgroundImage.src = "FIELD_MAP2.svg"; 
+backgroundImage.src = "FIELD_MAP2.svg";
 backgroundImage.addEventListener("load", () => {
   ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 });
@@ -21,11 +22,12 @@ let lastY = 0;
 let strokes = [];
 let currentStroke = [];
 
+// Get pointer position
 function getPointerPos(e) {
   const rect = canvas.getBoundingClientRect();
   return {
     x: e.clientX - rect.left,
-    y: e.clientY - rect.top
+    y: e.clientY - rect.top,
   };
 }
 
@@ -74,7 +76,7 @@ document.getElementById("clearCanvas").addEventListener("click", () => {
   strokes = [];
 });
 
-// Convert strokes to <path> elements
+// Convert strokes to <path>
 function buildSVGPaths() {
   let pathElements = "";
   for (const stroke of strokes) {
@@ -113,37 +115,35 @@ document.getElementById("submitDrawing").addEventListener("click", () => {
   // Convert SVG to Base64
   const svgBlob = new Blob([finalSVG], { type: "image/svg+xml" });
   const reader = new FileReader();
+
   reader.onload = function () {
-    const base64SVG = reader.result;  // e.g. data:image/svg+xml;base64,...
+    const base64SVG = reader.result; // e.g. data:image/svg+xml;base64,...
 
     // Construct the data to send
     const payload = {
       teamNumber: teamNumber,
       matchNumber: matchNumber,
-      svgData: base64SVG
+      svgData: base64SVG,
     };
 
     // POST to the Apps Script Web App
     fetch(GOOGLE_SCRIPT_URL, {
-  method: "POST",
-  body: JSON.stringify({
-    teamNumber,
-    matchNumber,
-    svgData: base64SVG
-  }),
-  headers: { "Content-Type": "application/json" }
-})
-  .then(response => response.json())
-  .then(data => {
-    if (data.status === "success") {
-      alert("Submission successful!");
-      // ...
-    } else {
-      alert("Submission failed: " + data.message);
-    }
-  })
-  .catch(err => alert("Submission failed: " + err));
-  
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === "success") {
+          alert("Submission successful!");
+          // Reset or clear the canvas, etc.
+        } else {
+          alert("Submission failed: " + data.message);
+        }
+      })
+      .catch((err) => alert("Submission failed: " + err));
+  }; // <-- FIXED BRACES HERE
+
   reader.readAsDataURL(svgBlob);
 });
 
