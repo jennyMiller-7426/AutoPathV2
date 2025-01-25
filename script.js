@@ -6,7 +6,7 @@ const ctx = canvas.getContext("2d");
 
 // Load the background image
 const backgroundImage = new Image();
-backgroundImage.src = "FIELD_MAP.svg"; // Replace with your image file name
+backgroundImage.src = "FIELD_MAP2.svg"; // Replace with your image file name
 
 // Draw the background image when it loads
 backgroundImage.onload = () => {
