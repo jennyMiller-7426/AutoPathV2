@@ -1,8 +1,8 @@
-console.log("test 8!");
+console.log("test 9!");
 
 // Google Apps Script URL (web app)
 const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxYTZHXHJrsT1qzHOVGIsFnt6Zh78Ns-lBoyq9E7QYeEMuMcqnqshIpHdYe6RYjNNVN/exec";
+  "https://script.google.com/macros/s/AKfycbwpIFWcCiNOXdmGTKQLQG9qyo2s9EUsJ_JX7mCT89oYkkbFrqqIlQp2lXHCGL_9el6i/exec";
 
 // Canvas setup
 const canvas = document.getElementById("drawingCanvas");
