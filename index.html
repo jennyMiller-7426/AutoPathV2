@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Robot Path Drawing</title>
     <style>
-        body {
+    /* Make sure the canvas doesn't interpret touch as scroll */
+    #drawingCanvas {
+      border: 1px solid #000;
+      touch-action: none;
+    }
+
+      body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 20px;
@@ -23,8 +29,11 @@
             padding: 10px 15px;
             font-size: 16px;
         }
-    </style>
+  </style>
 </head>
+    
+    
+    
 <body>
     <h1>Draw Robot Path</h1>
     <p>The image below shows the field layout. Draw your robot's path on top of it.</p>
