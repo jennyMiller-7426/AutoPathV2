@@ -17,6 +17,7 @@ backgroundImage.onload = () => {
 const formEntryID = "entry.1067464794";  // Replace with your question's entry ID
 const formAction = "https://docs.google.com/forms/d/e/1FAIpQLScyZBBnuLBsynXzh-MH5aqHvMKN9PiJF334ruH6wgDipnqD6w/formResponse"; // Replace with your Form's ID
 
+/*
 // Variables for drawing on the canvas
 let isDrawing = false;
 let lastX = 0;
@@ -164,6 +165,7 @@ document.getElementById("submitDrawing").addEventListener("click", () => {
         formData.append(formEntryID, base64SVG);
         console.log("FormData content:", formData.get(formEntryID));
 
+        */
         fetch(formAction, {
             method: "POST",
             body: formData,
